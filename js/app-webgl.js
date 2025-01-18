@@ -74,7 +74,7 @@ window.addEventListener('resize', updateBackgroundForMobile);
 // Вызываем функцию сразу для начальной настройки
 updateBackgroundForMobile();
 
-const colors = ["#FFDAB9", "#FF9F1C", "#FF6F00", "#D84315", "#F4511E", "#BF360C"];
+const colors = ["#FFDAB9", "#ed1c27", "#FF6F00", "#D84315", "#F4511E", "#BF360C"];
 const threeColors = colors.map(color => new THREE.Color(color));
 
 // Classic Perlin Noise shader
@@ -168,7 +168,7 @@ class WebGLBackground {
                 uNoiseAmount: { value: 0 },
                 uRayMouse: { value: this.uMouse },
                 uAmount: { value: this.activeBackground.shapeAmount },
-                uPow: { value: 3 },
+                uPow: { value: 10 },
                 uAlpha: { value: 0 },
                 uColor: { value: threeColors },
                 uMouseEffect: { value: this.activeBackground.mouseEffect },
@@ -209,7 +209,7 @@ class WebGLBackground {
                 void main() {
                     vec3 firstColor = uColor[0];
                     vec2 seed = (vUv * -uPos) * mix(vUv, uPos, 30. * uAmount);
-                    float ml = pow(6., 0.5) * -0.01;
+                    float ml = pow(1., 0.5) * -0.01;
                     float n = cnoise21(seed) + 1. * uTime;
                     vec3 color = mix(firstColor, firstColor, cnoise21(seed) / 1000.);
 
@@ -287,10 +287,10 @@ class WebGLBackground {
 
         if (this.reverseUTime) {
             this.uTime -= 0.001;
-            if (this.uTime < 0.1) this.reverseUTime = false;
+            if (this.uTime < 0.2) this.reverseUTime = false;
         } else {
             this.uTime += 0.001;
-            if (this.uTime > 0.5) this.reverseUTime = true;
+            if (this.uTime > 0.7) this.reverseUTime = true;
         }
 
         this.material.uniforms.uTime.value = this.uTime;
